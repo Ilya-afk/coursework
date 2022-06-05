@@ -63,13 +63,29 @@ class Database:
         self.con.close()
 
 
-db = Database()
-is_ok = 'error'
-while is_ok == 'error':
-    u = input()
-    p = input()
-    is_ok = db.connection(u, p)
+def try_connection(user, password):
+    try:
+        con = psycopg2.connect(
+          database="cursovaya",
+          user=user,
+          password=password,
+          host="127.0.0.1",
+          port="5432"
+        )
+        cur = con.cursor()
+    except:
+        return False
+    return True
 
-db.delete_user(6)
-db.get_user_data()
-db.close_con()
+
+if __name__ == '__main__':
+    db = Database()
+    is_ok = 'error'
+    while is_ok == 'error':
+        u = input()
+        p = input()
+        is_ok = db.connection(u, p)
+
+    db.delete_user(6)
+    db.get_user_data()
+    db.close_con()

@@ -40,7 +40,6 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        self.add_functions()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -48,13 +47,6 @@ class Ui_MainWindow(object):
         self.user_label.setText(_translate("MainWindow", "user"))
         self.password_label.setText(_translate("MainWindow", "password"))
         self.con_button.setText(_translate("MainWindow", "connect"))
-
-    def add_functions(self):
-        self.con_button.clicked.connect(self.connect_to_db)
-
-    def connect_to_db(self):
-        print(self.line_user.text(), self.line_password.text())
-
 
 
 if __name__ == "__main__":

@@ -1,4 +1,16 @@
-data = (3, None, 'Leha', None, '33333333333', 'Saratov', 2000,)
+from PyQt5 import uic
+from PyQt5 import QtCore, QtGui
 
-a = ("SELECT * from update_user(%s, %s, %s, %s, %s, %s, %s)" % (data))
-print(a)
+current_table = 'user_data'
+
+def get_user_data(sosi):
+    print(sosi)
+    return 'сработало'
+
+
+test = f'get_{current_table}'
+
+locals().get(test)
+print(test)
+
+print(locals()[test]('Gleb sosed'))
