@@ -14,11 +14,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_AppWindow(object):
     def setupUi(self, AppWindow):
         AppWindow.setObjectName("AppWindow")
-        AppWindow.resize(745, 520)
+        AppWindow.resize(850, 520)
         self.centralwidget = QtWidgets.QWidget(AppWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
-        self.tableWidget.setGeometry(QtCore.QRect(100, 0, 641, 421))
+        self.tableWidget.setGeometry(QtCore.QRect(100, 0, 730, 420))
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(0)
         self.tableWidget.setRowCount(0)
