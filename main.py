@@ -18,6 +18,7 @@ from qt.delete_tariff_period import Ui_delete_tariff_period_window
 from qt.delete_tariff import Ui_delete_tariff_window
 from test import Database, try_connection
 
+
 class UiConnection(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(UiConnection, self).__init__()
@@ -47,6 +48,11 @@ class UiDBWindow(QMainWindow, Ui_AppWindow):
 
         self.current_table = current_table
 
+        if self.user == 'User':
+            self.add_button.setEnabled(False)
+            self.update_button.setEnabled(False)
+            self.delete_button.setEnabled(False)
+
         self.get_dict = {'user_data': self.get_user_data, 'payment': self.get_payment,
                          'tariff': self.get_tariff, 'tariff_period': self.get_tariff_period}
         self.add_dict = {'user_data': self.add_user_data, 'payment': self.add_payment,
@@ -70,6 +76,11 @@ class UiDBWindow(QMainWindow, Ui_AppWindow):
         self.current_table = 'user_data'
         self.get_user_data()
 
+        self.select_button.clicked.disconnect()
+        self.add_button.clicked.disconnect()
+        self.update_button.clicked.disconnect()
+        self.delete_button.clicked.disconnect()
+
         self.select_button.clicked.connect(self.get_dict[self.current_table])
         self.add_button.clicked.connect(self.add_dict[self.current_table])
         self.update_button.clicked.connect(self.update_dict[self.current_table])
@@ -78,6 +89,11 @@ class UiDBWindow(QMainWindow, Ui_AppWindow):
     def set_current_payment(self):
         self.current_table = 'payment'
         self.get_payment()
+
+        self.select_button.clicked.disconnect()
+        self.add_button.clicked.disconnect()
+        self.update_button.clicked.disconnect()
+        self.delete_button.clicked.disconnect()
 
         self.select_button.clicked.connect(self.get_dict[self.current_table])
         self.add_button.clicked.connect(self.add_dict[self.current_table])
@@ -88,6 +104,11 @@ class UiDBWindow(QMainWindow, Ui_AppWindow):
         self.current_table = 'tariff'
         self.get_tariff()
 
+        self.select_button.clicked.disconnect()
+        self.add_button.clicked.disconnect()
+        self.update_button.clicked.disconnect()
+        self.delete_button.clicked.disconnect()
+
         self.select_button.clicked.connect(self.get_dict[self.current_table])
         self.add_button.clicked.connect(self.add_dict[self.current_table])
         self.update_button.clicked.connect(self.update_dict[self.current_table])
@@ -96,6 +117,11 @@ class UiDBWindow(QMainWindow, Ui_AppWindow):
     def set_current_tariff_period(self):
         self.current_table = 'tariff_period'
         self.get_tariff_period()
+
+        self.select_button.clicked.disconnect()
+        self.add_button.clicked.disconnect()
+        self.update_button.clicked.disconnect()
+        self.delete_button.clicked.disconnect()
 
         self.select_button.clicked.connect(self.get_dict[self.current_table])
         self.add_button.clicked.connect(self.add_dict[self.current_table])
