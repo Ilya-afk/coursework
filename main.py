@@ -16,6 +16,8 @@ from qt.update_tariff import Ui_update_tariff_window
 from qt.delete_payment import Ui_delete_payment_window
 from qt.delete_tariff_period import Ui_delete_tariff_period_window
 from qt.delete_tariff import Ui_delete_tariff_window
+from qt.taskWindow import Ui_taskWindow
+from qt.update_view import Ui_update_view_window
 from test import Database, try_connection
 
 
@@ -54,13 +56,17 @@ class UiDBWindow(QMainWindow, Ui_AppWindow):
             self.delete_button.setEnabled(False)
 
         self.get_dict = {'user_data': self.get_user_data, 'payment': self.get_payment,
-                         'tariff': self.get_tariff, 'tariff_period': self.get_tariff_period}
+                         'tariff': self.get_tariff, 'tariff_period': self.get_tariff_period,
+                         'view': self.get_view}
         self.add_dict = {'user_data': self.add_user_data, 'payment': self.add_payment,
-                         'tariff': self.add_tariff, 'tariff_period': self.add_tariff_period}
+                         'tariff': self.add_tariff, 'tariff_period': self.add_tariff_period,
+                         'view': self.add_view}
         self.update_dict = {'user_data': self.update_user_data, 'payment': self.update_payment,
-                            'tariff': self.update_tariff, 'tariff_period': self.update_tariff_period}
+                            'tariff': self.update_tariff, 'tariff_period': self.update_tariff_period,
+                            'view': self.update_view}
         self.delete_dict = {'user_data': self.delete_user_data, 'payment': self.delete_payment,
-                            'tariff': self.delete_tariff, 'tariff_period': self.delete_tariff_period}
+                            'tariff': self.delete_tariff, 'tariff_period': self.delete_tariff_period,
+                            'view': self.delete_view}
 
         self.select_button.clicked.connect(self.get_dict[self.current_table])
         self.add_button.clicked.connect(self.add_dict[self.current_table])
@@ -71,6 +77,8 @@ class UiDBWindow(QMainWindow, Ui_AppWindow):
         self.payment_button.clicked.connect(self.set_current_payment)
         self.tariff_button.clicked.connect(self.set_current_tariff)
         self.tariff_period_button.clicked.connect(self.set_current_tariff_period)
+        self.view_button.clicked.connect(self.set_current_view)
+        self.task_button.clicked.connect(self.show_task)
 
     def set_current_user(self):
         self.current_table = 'user_data'
@@ -127,6 +135,45 @@ class UiDBWindow(QMainWindow, Ui_AppWindow):
         self.add_button.clicked.connect(self.add_dict[self.current_table])
         self.update_button.clicked.connect(self.update_dict[self.current_table])
         self.delete_button.clicked.connect(self.delete_dict[self.current_table])
+
+    def set_current_view(self):
+        self.current_table = 'view'
+        self.get_view()
+
+        self.select_button.clicked.disconnect()
+        self.add_button.clicked.disconnect()
+        self.update_button.clicked.disconnect()
+        self.delete_button.clicked.disconnect()
+
+        self.select_button.clicked.connect(self.get_dict[self.current_table])
+        self.add_button.clicked.connect(self.add_dict[self.current_table])
+        self.update_button.clicked.connect(self.update_dict[self.current_table])
+        self.delete_button.clicked.connect(self.delete_dict[self.current_table])
+
+    def show_task(self):
+        self.ui = UitaskWindow(self.user, self.password)
+        self.ui.show()
+
+    def get_view(self):
+        rows = self.db.get_view()
+        self.tableWidget.setColumnCount(9)
+        self.tableWidget.setRowCount(len(rows))
+        self.tableWidget.setHorizontalHeaderLabels(['payment_id', 'payment_amount', 'payment_date', 'price', 'start_date',
+                                                    'end_date', 'surname', 'first_name', 'middle_name'])
+        for i in range(len(rows)):
+            for j in range(len(rows[i])):
+                newitem = QTableWidgetItem(str(rows[i][j]))
+                self.tableWidget.setItem(i, j, newitem)
+
+    def add_view(self):
+        print('нельзя')
+
+    def delete_view(self):
+        print('нельзя')
+
+    def update_view(self):
+        self.ui = UiUpdateViewWindow(self.user, self.password)
+        self.ui.show()
 
     def get_payment(self):
         rows = self.db.get_payment()
@@ -522,7 +569,7 @@ class UiUpdateTariffPeriodWindow(QMainWindow, Ui_update_tariff_period_window):
 
 class UiDeleteTariffPeriodWindow(QMainWindow, Ui_delete_tariff_period_window):
     def __init__(self, user, password):
-        super(UiDeleteTariffPeriodWindow, self).__init__()
+        super(Ui_delete_tariff_period_window, self).__init__()
         self.setupUi(self)
 
         self.user = user
@@ -538,6 +585,117 @@ class UiDeleteTariffPeriodWindow(QMainWindow, Ui_delete_tariff_period_window):
             return None
 
         self.db.delete_tariff_period(int(self.lineEdit_tariff_period_id.text()))
+
+
+class UiUpdateViewWindow(QMainWindow, Ui_update_view_window):
+    def __init__(self, user, password):
+        super(UiUpdateViewWindow, self).__init__()
+        self.setupUi(self)
+
+        self.user = user
+        self.password = password
+
+        self.db = Database()
+        self.db.connection(self.user, self.password)
+
+        self.update_view_button.clicked.connect(self.update_view)
+
+    def update_view(self):
+        if not self.lineEdit_payment_id.text().isdigit():
+            return None
+
+        if not self.lineEdit_payment_amount.text().isdigit():
+            payment_amount = None
+        else:
+            payment_amount = int(self.lineEdit_payment_amount.text())
+
+        if not self.lineEdit_price.text().isdigit():
+            price = None
+        else:
+            price = int(self.lineEdit_price.text())
+
+        data = [int(self.lineEdit_payment_id.text()), payment_amount, self.lineEdit_payment_date.text(),
+                price, self.lineEdit_start_date.text(), self.lineEdit_end_date.text(), self.lineEdit_surname.text(),
+                self.lineEdit_first_name.text(), self.lineEdit_middle_name.text()]
+
+        print(data)
+
+        self.db.update_view(*data)
+
+
+class UitaskWindow(QMainWindow, Ui_taskWindow):
+    def __init__(self, user, password):
+        super(UitaskWindow, self).__init__()
+        self.setupUi(self)
+
+        self.user = user
+        self.password = password
+
+        self.db = Database()
+        self.db.connection(self.user, self.password)
+
+        self.task3aButton.clicked.connect(self.get_3a)
+        self.task3cButton.clicked.connect(self.get_3c)
+        self.task3dButton.clicked.connect(self.get_3d)
+        self.task3eButton.clicked.connect(self.get_3e)
+        self.task3fButton.clicked.connect(self.get_3f)
+
+    def get_3a(self):
+        rows = self.db.task_3a()
+        self.tableWidget.setColumnCount(10)
+        self.tableWidget.setRowCount(len(rows))
+        self.tableWidget.setHorizontalHeaderLabels(
+            ['payment_id', 'payment_amount', 'payment_date', 'price', 'start_date',
+             'end_date', 'surname', 'first_name', 'middle_name', 'payment_success'])
+        for i in range(len(rows)):
+            for j in range(len(rows[i])):
+                newitem = QTableWidgetItem(str(rows[i][j]))
+                self.tableWidget.setItem(i, j, newitem)
+
+    def get_3c(self):
+        rows = self.db.task_3c()
+        self.tableWidget.setColumnCount(1)
+        self.tableWidget.setRowCount(len(rows))
+        self.tableWidget.setHorizontalHeaderLabels(
+            ['user_data_id'])
+        for i in range(len(rows)):
+            for j in range(len(rows[i])):
+                newitem = QTableWidgetItem(str(rows[i][j]))
+                self.tableWidget.setItem(i, j, newitem)
+
+    def get_3d(self):
+        rows = self.db.task_3d()
+        self.tableWidget.setColumnCount(4)
+        self.tableWidget.setRowCount(len(rows))
+        self.tableWidget.setHorizontalHeaderLabels(
+            ['payment_date', 'payment_amount', 'surname', 'tariff_name'])
+        for i in range(len(rows)):
+            for j in range(len(rows[i])):
+                newitem = QTableWidgetItem(str(rows[i][j]))
+                self.tableWidget.setItem(i, j, newitem)
+
+    def get_3e(self):
+        rows = self.db.task_3e()
+        self.tableWidget.setColumnCount(3)
+        self.tableWidget.setRowCount(len(rows))
+        self.tableWidget.setHorizontalHeaderLabels(
+            ['user_data_id', 'price', 'payment_amount'])
+        for i in range(len(rows)):
+            for j in range(len(rows[i])):
+                newitem = QTableWidgetItem(str(rows[i][j]))
+                self.tableWidget.setItem(i, j, newitem)
+
+    def get_3f(self):
+        rows = self.db.task_3f()
+        self.tableWidget.setColumnCount(7)
+        self.tableWidget.setRowCount(len(rows))
+        self.tableWidget.setHorizontalHeaderLabels(
+            ['user_data_id', 'surname', 'first_name', 'middle_name',
+             'phone_number', 'address', 'balance'])
+        for i in range(len(rows)):
+            for j in range(len(rows[i])):
+                newitem = QTableWidgetItem(str(rows[i][j]))
+                self.tableWidget.setItem(i, j, newitem)
 
 
 if __name__ == '__main__':

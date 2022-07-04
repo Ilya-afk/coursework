@@ -150,6 +150,65 @@ class Database:
             print(row)
         self.con.commit()
 
+    def task_3a(self):
+        self.cur.execute("""SELECT *, 
+                        CASE
+                        WHEN payment_amount = price THEN 'Тариф продлен'
+                        WHEN payment_amount > price THEN 'Тариф продлен'
+                        WHEN payment_amount < price THEN 'Недостаточно денег'
+                        END AS payment_success
+                        FROM info_view""")
+        rows = self.cur.fetchall()
+        return rows
+
+    def task_3c(self):
+        self.cur.execute("""SELECT (SELECT user_data_id FROM user_data WHERE surname = 'Nazarov')""")
+        rows = self.cur.fetchall()
+        return rows
+
+    def task_3d(self):
+        self.cur.execute("""SELECT payment_date, payment_amount,
+                        (SELECT surname FROM user_data ud WHERE ud.user_data_id = payment.user_data_id) AS surname,
+                        (SELECT tariff_name FROM tariff WHERE tariff.tariff_id = payment.tariff_id) AS tariff_name
+                        FROM payment""")
+        rows = self.cur.fetchall()
+        return rows
+
+    def task_3e(self):
+        self.cur.execute("""SELECT user_data_id, price, SUM(payment_amount) as payment_amount
+                        FROM payment JOIN tariff on tariff.tariff_id = payment.tariff_id
+                        GROUP BY user_data_id, price
+                        HAVING SUM(payment_amount) >= price;""")
+        rows = self.cur.fetchall()
+        return rows
+
+    def task_3f(self):
+        self.cur.execute("""SELECT * FROM user_data WHERE first_name = ANY('{Ilya, Leha, Igor}')""")
+        rows = self.cur.fetchall()
+        return rows
+
+    def update_view(self, payment_id, payment_amount=None,
+                    payment_date=None,
+                    price=None,
+                    start_date=None,
+                    end_date=None,
+                    surname=None,
+                    first_name=None,
+                    middle_name=None):
+        payment_date = None if payment_date == "" else payment_date
+        start_date = None if start_date == "" else start_date
+        end_date = None if end_date == "" else end_date
+        surname = None if surname == "" else surname
+        first_name = None if first_name == "" else first_name
+        middle_name = None if middle_name == "" else middle_name
+
+        data = (payment_id, payment_amount, payment_date, price, start_date, end_date, surname, first_name, middle_name)
+        self.cur.execute("SELECT * from update_info_view(%s, %s, %s, %s, %s, %s, %s, %s, %s)", data)
+        rows = self.cur.fetchall()
+        for row in rows:
+            print(row)
+        self.con.commit()
+
     def close_con(self):
         self.con.close()
 
@@ -177,10 +236,9 @@ if __name__ == '__main__':
         p = input()
         is_ok = db.connection(u, p)
 
-    db.add_tariff_period(None, "2000-01-01", "2000-01-01")
-    print(db.get_tariff_period())
-    db.update_tariff_period(6, start_date="1900-01-01")
-    print(db.get_tariff_period())
-    db.delete_tariff_period(6)
-    print(db.get_tariff_period())
+    print(db.task_3a())
+    print(db.task_3c())
+    print(db.task_3d())
+    print(db.task_3e())
+    print(db.task_3f())
     db.close_con()

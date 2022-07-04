@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AppWindow</class>
- <widget class="QMainWindow" name="AppWindow">
+ <class>taskWindow</class>
+ <widget class="QMainWindow" name="taskWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -24,7 +24,20 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="user_data_button">
+   <widget class="QPushButton" name="backButton">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>420</y>
+      <width>101</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>назад</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="task3aButton">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -34,101 +47,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>user_data</string>
+     <string>3a</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="payment_button">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>40</y>
-      <width>101</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>payment</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="tariff_button">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>80</y>
-      <width>101</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>tariff</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="tariff_period_button">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>120</y>
-      <width>101</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>tariff_period</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="select_button">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>420</y>
-      <width>101</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>обновить</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="add_button">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>420</y>
-      <width>101</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>добавить</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="update_button">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>420</y>
-      <width>101</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>изменить</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="delete_button">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>420</y>
-      <width>101</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>удалить</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="task_button">
+   <widget class="QPushButton" name="task3fButton">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -138,20 +60,46 @@
      </rect>
     </property>
     <property name="text">
-     <string>задания</string>
+     <string>3f</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="view_button">
+   <widget class="QPushButton" name="task3eButton">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>200</y>
+      <y>120</y>
       <width>101</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>view</string>
+     <string>3e</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="task3dButton">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>80</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>3d</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="task3cButton">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>40</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>3c</string>
     </property>
    </widget>
   </widget>
