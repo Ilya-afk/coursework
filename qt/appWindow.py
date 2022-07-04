@@ -14,11 +14,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_AppWindow(object):
     def setupUi(self, AppWindow):
         AppWindow.setObjectName("AppWindow")
-        AppWindow.resize(850, 520)
+        AppWindow.resize(745, 520)
         self.centralwidget = QtWidgets.QWidget(AppWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
-        self.tableWidget.setGeometry(QtCore.QRect(100, 0, 730, 420))
+        self.tableWidget.setGeometry(QtCore.QRect(100, 0, 641, 421))
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(0)
         self.tableWidget.setRowCount(0)
@@ -49,6 +49,9 @@ class Ui_AppWindow(object):
         self.task_button = QtWidgets.QPushButton(self.centralwidget)
         self.task_button.setGeometry(QtCore.QRect(0, 160, 101, 41))
         self.task_button.setObjectName("task_button")
+        self.view_button = QtWidgets.QPushButton(self.centralwidget)
+        self.view_button.setGeometry(QtCore.QRect(0, 200, 101, 41))
+        self.view_button.setObjectName("view_button")
         AppWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(AppWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 745, 21))
@@ -73,13 +76,4 @@ class Ui_AppWindow(object):
         self.update_button.setText(_translate("AppWindow", "изменить"))
         self.delete_button.setText(_translate("AppWindow", "удалить"))
         self.task_button.setText(_translate("AppWindow", "задания"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    AppWindow = QtWidgets.QMainWindow()
-    ui = Ui_AppWindow()
-    ui.setupUi(AppWindow)
-    AppWindow.show()
-    sys.exit(app.exec_())
+        self.view_button.setText(_translate("AppWindow", "view"))
